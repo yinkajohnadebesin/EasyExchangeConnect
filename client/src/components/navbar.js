@@ -1,0 +1,16 @@
+export default function Navbar() {
+    return <nav className="nav">
+        <a href="/" className="site-title">EasyExchangeConnect</a>
+        <ul>
+            <li>
+                <a href="/Universities">Universities</a>
+            </li>
+            <li>
+                <a href="/Welcome">Welcome</a>
+            </li>
+            <li>
+                <a href="/CommunityTC">EasyExchange+</a>
+            </li>
+        </ul>
+    </nav>
+}
