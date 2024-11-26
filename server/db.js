@@ -4,11 +4,13 @@ const mysql = require('mysql2');
 const cors = require('cors');
 
 const { fetchUsers, fetchComments } = require('./fetches')
+const { makeComment } = require('./posts')
 
 const app = express();
 const port = 3001;
 
 app.use(cors());
+app.use(express.json()); // Middleware to parse JSON requests
 
 // API endpoint to fetch username and email
 app.get('/Users', (req, res) => {
@@ -30,6 +32,25 @@ app.get('/Comments', (req, res) => {
     });
 });
 
+// ----------------------------------------------------------------
+
+app.post('/Comments', (req, res) => {
+    const { comment } = req.body; // Get comment from request body
+
+    if (!comment) {
+        return res.status(400).json({ message: 'Comment is required' });
+    }
+
+    // Call the makeComment function to insert the comment into the database
+    makeComment(comment, (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: 'Error inserting comment', error: err });
+        }
+        res.status(200).json({ message: 'Comment added successfully', commentId: results.insertId });
+    });
+});
+
+// ----------------------------------------------------------------
 
 // Start the server
 app.listen(port, () => {

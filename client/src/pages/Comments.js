@@ -1,10 +1,123 @@
+//import React, { useState, useEffect } from 'react';
+//import axios from 'axios'
+//import Navbar from '../components/navbar';
+
+//function Comments() {
+//    const [comments, setComments] = useState([])
+
+//    useEffect(() => {
+//        axios.get('http://localhost:3001/Comments') // fetch from backend
+//            .then(response => {
+//                console.log('Comments', response.data);
+//                setComments(response.data);
+//            })
+//            .catch(error => {
+//                console.error('Error fetching data from React Side:', error);
+//            });
+//    }, []);
+
+//    return (
+//        <div>
+//            <Navbar></Navbar>
+//            <ul>
+//                {comments.map((comment) => (
+//                    <li key={comment.Comment_ID}>
+//                        Comment {comment.Comment_ID} - {comment.Comment}
+//                    </li>
+//                ))}
+//            </ul>
+//        </div>
+//    )
+
+//}
+
+//export default Comments;
+
+//import React, { useState, useEffect } from 'react';
+//import axios from 'axios';
+//import Navbar from '../components/navbar';
+
+//function Comments() {
+//    const [comments, setComments] = useState([]);
+//    const [newComment, setNewComment] = useState('');
+//    const [creatorS, setCreatorS] = useState(''); // Optional: current user's Student_Username
+//    const [creatorL, setCreatorL] = useState(''); // Optional: current user's Lecturer_Username
+
+//    // Fetch existing comments
+//    useEffect(() => {
+//        axios.get('http://localhost:3001/Comments') // fetch from backend
+//            .then(response => {
+//                console.log('Comments', response.data);
+//                setComments(response.data);
+//            })
+//            .catch(error => {
+//                console.error('Error fetching data from React Side:', error);
+//            });
+//    }, []);
+
+//    // Handle adding a new comment
+//    const handleSubmit = (e) => {
+//        e.preventDefault();
+//        if (!newComment.trim()) return;
+
+//        const payload = {
+//            comment: newComment,
+//            creatorS: creatorS || null,
+//            creatorL: creatorL || null,
+//        };
+
+//        axios.post('http://localhost:3001/Comments', payload)
+//            .then(response => {
+//                console.log(response.data);
+//                // Append the new comment to the list
+//                setComments([...comments, {
+//                    Comment_ID: response.data.commentId,
+//                    Comment: newComment
+//                }]);
+//                setNewComment(''); // Clear input
+//            })
+//            .catch(error => {
+//                console.error('Error posting comment:', error);
+//            });
+//    };
+
+//    return (
+//        <div>
+//            <Navbar />
+//            <h1>Comments</h1>
+//            <form onSubmit={handleSubmit}>
+//                <textarea
+//                    value={newComment}
+//                    onChange={(e) => setNewComment(e.target.value)}
+//                    placeholder="Write a comment..."
+//                />
+//                <br />
+//                <br />
+//                <button type="submit">Submit</button>
+//            </form>
+//            <ul>
+//                {comments.map((comment) => (
+//                    <li key={comment.Comment_ID}>
+//                        Comment {comment.Comment_ID} - {comment.Comment}
+//                    </li>
+//                ))}
+//            </ul>
+//        </div>
+//    );
+//}
+
+//export default Comments;
+
+
 import React, { useState, useEffect } from 'react';
-import axios from 'axios'
+import axios from 'axios';
 import Navbar from '../components/navbar';
 
 function Comments() {
-    const [comments, setComments] = useState([])
+    const [comments, setComments] = useState([]);
+    const [newComment, setNewComment] = useState('');
 
+    // Fetch existing comments
     useEffect(() => {
         axios.get('http://localhost:3001/Comments') // fetch from backend
             .then(response => {
@@ -16,9 +129,47 @@ function Comments() {
             });
     }, []);
 
+    // Handle adding a new comment
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        // Prevent empty comments from being submitted
+        if (!newComment.trim()) {
+            return;
+        }
+
+        const payload = {
+            comment: newComment, // send the comment data
+        };
+
+        axios.post('http://localhost:3001/Comments', payload)
+            .then(response => {
+                console.log(response.data);
+                // Append the new comment to the list
+                setComments([...comments, {
+                    Comment_ID: response.data.commentId,
+                    Comment: newComment
+                }]);
+                setNewComment(''); // Clear input after submitting
+            })
+            .catch(error => {
+                console.error('Error posting comment:', error);
+            });
+    };
+
     return (
         <div>
-            <Navbar></Navbar>
+            <Navbar />
+            <h1>Comments</h1>
+            <form onSubmit={handleSubmit}>
+                <textarea
+                    value={newComment}
+                    onChange={(e) => setNewComment(e.target.value)}
+                    placeholder="Write a comment..."
+                />
+                <br />
+                <button type="submit">Submit</button>
+            </form>
             <ul>
                 {comments.map((comment) => (
                     <li key={comment.Comment_ID}>
@@ -27,8 +178,8 @@ function Comments() {
                 ))}
             </ul>
         </div>
-    )
-
+    );
 }
 
 export default Comments;
+
