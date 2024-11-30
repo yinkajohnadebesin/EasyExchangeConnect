@@ -3,10 +3,10 @@ export default function Navbar() {
         <a href="/" className="site-title">EasyExchangeConnect</a>
         <ul>
             <li>
-                <a href="/Universities">Universities</a>
+                <a href="/Application">Apply</a>
             </li>
             <li>
-                <a href="/Welcome">Welcome</a>
+                <a href="/Universities">Universities</a>
             </li>
             <li>
                 <a href="/CommunityTC">EasyExchange+</a>

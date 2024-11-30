@@ -12,6 +12,7 @@ import { Welcome } from "./pages/Welcome"
 import { CommunityTC } from "./pages/CommunityTC"
 import Users from "./pages/Users"
 import Comments from "./pages/Comments"
+import Application from "./pages/Application"
 
 import Navbar from "./components/navbar"
 
@@ -29,6 +30,7 @@ const App = () => {
                     <Route path="/CommunityTC" element={<CommunityTC />} />
                     <Route path="/Comments" element={<Comments />} />
                     <Route path="/Users" element={<Users />} />
+                    <Route path="/Application" element={<Application />} />
                 </Routes>
             </Router>
         </div>

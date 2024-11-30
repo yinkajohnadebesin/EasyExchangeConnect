@@ -64,3 +64,28 @@ CREATE TABLE Replies (
     Reply_DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+DROP TABLE IF EXISTS Country;
+
+CREATE TABLE Country (
+	Country_ID INT PRIMARY KEY NOT NULL,
+    Country_Name CHAR (50) UNIQUE NOT NULL
+);
+
+DROP TABLE IF EXISTS Cities;
+
+CREATE TABLE Cities (
+	City_ID INT PRIMARY KEY NOT NULL,
+    City_Name CHAR (50) UNIQUE NOT NULL,
+    Country_ID INT,
+    Population INTEGER NOT NULL,
+    FOREIGN KEY(Country_ID) REFERENCES Country(Country_ID)
+);
+
+DROP TABLE IF EXISTS Universities;
+
+CREATE TABLE Universities (
+	University_ID INT PRIMARY KEY NOT NULL,
+    University_Name VARCHAR (100) UNIQUE NOT NULL,
+    City_ID INT,
+    FOREIGN KEY(City_ID) REFERENCES Cities(City_ID)
+);
