@@ -1,34 +1,46 @@
-import React from 'react';
+// /frontend/pages/Login.js
+import { useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export const Login = () => {
+function Login() {
     const navigate = useNavigate();
+    const [formData, setFormData] = useState({
+        Student_Email: '',
+        Student_Password: ''
+    });
+    const [error, setError] = useState('');
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        
+        try {
+            const response = await axios.post('http://localhost:3001/auth/login', formData);
+            if (response.data.token) {
+                localStorage.setItem('token', response.data.token); // Store JWT in localStorage
+                navigate('/welcome'); // Redirect to welcome page
+            }
+        } catch (err) {
+            setError(err.response?.data?.message || 'Login failed. Please try again.');
+        }
+    };
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <h1>Login Page</h1>
-            <p>Please enter your credentials to log in.</p>
-            <div style={{ marginTop: '20px' }}>
-                <button
-                    style={{ padding: '10px 20px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}
-                    onClick={() => navigate('/Register')}
-                >
-                    Go to Register
-                </button>
-                <button
-                    style={{ padding: '10px 20px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}
-                    onClick={() => navigate('/')}
-                >
-                    Back to Homepage
-                </button>
-
-                <button
-                    style={{ padding: '10px 20px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}
-                    onClick={() => navigate('/Home')}
-                >
-                    Submit
-                </button>
-            </div>
+        <div>
+            <h1>Login</h1>
+            {error && <p>{error}</p>}
+            <form onSubmit={handleSubmit}>
+                <input type="email" name="Student_Email" placeholder="Email" value={formData.Student_Email} onChange={handleChange} required /><br />
+                <input type="password" name="Student_Password" placeholder="Password" value={formData.Student_Password} onChange={handleChange} required /><br />
+                <button type="submit">Login</button>
+            </form>
         </div>
     );
-};
+}
+
+export default Login;

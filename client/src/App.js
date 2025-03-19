@@ -5,9 +5,9 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Home } from "./pages/Home"
-import { Login } from "./pages/Login"
+import Login from "./pages/Login"
 import Register from "./pages/Register"
-import { Welcome } from "./pages/Welcome"
+import Welcome from "./pages/Welcome"
 import { CommunityTC } from "./pages/CommunityTC"
 import FAQs from "./pages/FAQs"
 import Users from "./pages/Users"
@@ -22,7 +22,7 @@ const App = () => {
         <Navbar></Navbar>
             <Router>
                 <Routes>
-                    <Route path="/" element={<Welcome />} />
+                    <Route path="/welcome" element={<Welcome />} />
                     <Route path="/Home" element={<Home />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/Register" element={<Register />} />

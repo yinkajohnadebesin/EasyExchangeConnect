@@ -1,27 +1,47 @@
-import React from 'react';
+// /frontend/pages/Welcome.js
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-export const Welcome = () => {
+function Welcome() {
     const navigate = useNavigate();
+    const [user, setUser] = useState(null);
+    const [error, setError] = useState('');
+
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                navigate('/login'); // Redirect to login if no token
+                return;
+            }
+
+            try {
+                const response = await axios.get('http://localhost:3001/user/profile', {
+                    headers: { Authorization: token }
+                });
+                setUser(response.data);
+            } catch (err) {
+                setError('Failed to fetch user profile. Please log in again.');
+                localStorage.removeItem('token');
+                navigate('/login');
+            }
+        };
+        
+        fetchUserProfile();
+    }, [navigate]);
 
     return (
-        <div style={{ textAlign: 'center', marginTop: '50px' }}>
-            <h1>Welcome Page EasyExchange Connect</h1>
-            <p>Welcome to EasyExchange! Please choose an option below:</p>
-            <div style={{ marginTop: '20px' }}>
-                <button
-                    style={{ padding: '10px 20px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}
-                    onClick={() => navigate('/Login')}
-                >
-                    Login
-                </button>
-                <button
-                    style={{ padding: '10px 20px', margin: '10px', fontSize: '16px', cursor: 'pointer' }}
-                    onClick={() => navigate('/Register')}
-                >
-                    Register
-                </button>
-            </div>
+        <div>
+            <h1>Welcome</h1>
+            {error && <p>{error}</p>}
+            {user ? <h2>Hello, {user.Student_FirstName}!</h2> : <p>Loading...</p>}
+            <button onClick={() => {
+                localStorage.removeItem('token');
+                navigate('/login');
+            }}>Logout</button>
         </div>
     );
-};
+}
+
+export default Welcome;

@@ -11,13 +11,20 @@ const openai = require("./utils/openaiServices.js");
 const { fetchUsers, fetchComments } = require("./fetches.js");
 const { makeComment, createStudent } = require("./posts.js");
 
+const { login } = require("./controllers/authController"); // Import login controller
+
+const authRoutes = require("./routes/auth"); // Import auth routes
+const userRoutes = require("./routes/user"); // Import user routes
+
 const app = express();
 const port = 3001;
 
 app.use(cors());
 app.use(express.json()); // Middleware to parse JSON requests
 
-// API endpoint to fetch username and email
+app.use("/auth", authRoutes);
+app.use("/user", userRoutes);
+
 app.get("/Users", (req, res) => {
     fetchUsers((err, results) => {
         if (err) {
@@ -72,34 +79,65 @@ app.post("/ask", async (req, res) => {
     }
 });
 
-app.post('/Register', (req, res) => {
+// Register a new user
+app.post('/Register', async (req, res) => {
     const { Student_ID, Student_FirstName, Student_LastName, Student_Email, Student_Username, Student_DOB, Student_Password } = req.body;
 
     if (!Student_ID || !Student_FirstName || !Student_LastName || !Student_Email || !Student_Username || !Student_DOB || !Student_Password) {
         return res.status(400).json({ message: "All fields are required" });
     }
 
-    // Create an object from request body
-    const formData = {
-        Student_ID,
-        Student_FirstName,
-        Student_LastName,
-        Student_Email,
-        Student_Username,
-        Student_DOB,
-        Student_Password
-    };
+    try {
+        // Hash the password before storing it
+        const hashedPassword = await bcrypt.hash(Student_Password, 10);
 
-    // Call the function with the correct argument
-    createStudent(formData, (err, results) => {
-        if (err) {
-            return res.status(500).json({ message: "Error creating student user from db.js", error: err });
-        }
-        res.status(200).json({ message: "Student user created successfully", formData: results });
-    });
+        // Create an object from request body
+        const formData = {
+            Student_ID,
+            Student_FirstName,
+            Student_LastName,
+            Student_Email,
+            Student_Username,
+            Student_DOB,
+            Student_Password: hashedPassword  // Store hashed password
+        };
+
+        // Call the function to create the student
+        createStudent(formData, (err, results) => {
+            if (err) {
+                return res.status(500).json({ message: "Error creating student user", error: err });
+            }
+
+            // Generate JWT Token
+            const token = jwt.sign(
+                { Student_ID, Student_Email },
+                process.env.JWT_SECRET,
+                { expiresIn: "1h" }  // Token expires in 1 hour
+            );
+
+            res.status(201).json({
+                message: "Student user created successfully",
+                token,  // Send JWT token to client
+                user: {
+                    Student_ID,
+                    Student_FirstName,
+                    Student_LastName,
+                    Student_Email,
+                    Student_Username
+                }
+            });
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
 });
+
+// Login route
+app.post("/Login", login);
 
 // Start the server
 app.listen(port, () => {
     console.log(`Server running on port ${port}...`);
 });
+
