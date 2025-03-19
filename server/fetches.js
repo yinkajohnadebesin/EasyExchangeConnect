@@ -1,4 +1,4 @@
-const connection = require('./dbConnection'); // Import the database connection
+const connection = require('./dbconnection'); // Import the database connection
 
 const fetchUsers = (callback) => {
     const query = 'SELECT Student_Username, Student_Email FROM Users';

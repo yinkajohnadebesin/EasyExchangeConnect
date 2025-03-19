@@ -6,10 +6,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Home } from "./pages/Home"
 import { Login } from "./pages/Login"
-import { Register } from "./pages/Register"
-import { Universities } from "./pages/Universities"
+import Register from "./pages/Register"
 import { Welcome } from "./pages/Welcome"
 import { CommunityTC } from "./pages/CommunityTC"
+import FAQs from "./pages/FAQs"
 import Users from "./pages/Users"
 import Comments from "./pages/Comments"
 import Application from "./pages/Application"
@@ -26,11 +26,11 @@ const App = () => {
                     <Route path="/Home" element={<Home />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/Register" element={<Register />} />
-                    <Route path="/Universities" element={<Universities />} />
                     <Route path="/CommunityTC" element={<CommunityTC />} />
                     <Route path="/Comments" element={<Comments />} />
                     <Route path="/Users" element={<Users />} />
                     <Route path="/Application" element={<Application />} />
+                    <Route path="/FAQs" element={<FAQs />} />
                 </Routes>
             </Router>
         </div>

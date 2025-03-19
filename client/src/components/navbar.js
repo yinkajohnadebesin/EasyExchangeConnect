@@ -6,9 +6,6 @@ export default function Navbar() {
                 <a href="/Application">Apply</a>
             </li>
             <li>
-                <a href="/Universities">Universities</a>
-            </li>
-            <li>
                 <a href="/CommunityTC">EasyExchange+</a>
             </li>
         </ul>

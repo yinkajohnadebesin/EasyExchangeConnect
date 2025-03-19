@@ -13,7 +13,8 @@ CREATE TABLE Users (
     Student_LastName CHAR(50) NOT NULL,
     Student_Email VARCHAR(100) UNIQUE NOT NULL,
     Student_Username VARCHAR(50) UNIQUE NOT NULL,
-    Student_DOB DATE
+    Student_DOB DATE,
+    Student_Password VARCHAR(100) NOT NULL
 );
 
 -- Drop and recreate the Admins table
@@ -25,7 +26,8 @@ CREATE TABLE Admins (
     Lecturer_LastName CHAR(50) NOT NULL,
     Lecturer_Email VARCHAR(100) UNIQUE NOT NULL,
     Lecturer_Username VARCHAR(50) UNIQUE NOT NULL,
-    Lecturer_DOB DATE
+    Lecturer_DOB DATE,
+    Lecturer_Password VARCHAR(100) NOT NULL
 );
 
 -- Drop and recreate the Applications table
