@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from '../components/navbar';
 
 function Comments() {
     const [comments, setComments] = useState([]);
@@ -48,7 +47,6 @@ function Comments() {
 
     return (
         <div>
-            <Navbar />
             <h1>Comments</h1>
             <form onSubmit={handleSubmit}>
                 <textarea

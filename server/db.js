@@ -5,7 +5,12 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const express = require("express");
+const app = express();
+app.use(express.json()); // Middleware to parse JSON requests
+
 const cors = require("cors");
+app.use(cors());
+
 const openai = require("./utils/openaiServices.js");
 
 const { fetchUsers, fetchComments } = require("./fetches.js");
@@ -15,15 +20,14 @@ const { login } = require("./controllers/authController"); // Import login contr
 
 const authRoutes = require("./routes/auth"); // Import auth routes
 const userRoutes = require("./routes/user"); // Import user routes
+const adminRoutes = require("./routes/admin"); // Import admin routes
 
-const app = express();
 const port = 3001;
 
-app.use(cors());
-app.use(express.json()); // Middleware to parse JSON requests
-
+// Register authentication, user, and admin routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
+app.use("/admin", adminRoutes);
 
 app.get("/Users", (req, res) => {
     fetchUsers((err, results) => {
@@ -78,7 +82,6 @@ app.post("/ask", async (req, res) => {
         res.status(500).json({ message: "Error fetching response" });
     }
 });
-
 // Register a new user
 app.post('/Register', async (req, res) => {
     const { Student_ID, Student_FirstName, Student_LastName, Student_Email, Student_Username, Student_DOB, Student_Password } = req.body;

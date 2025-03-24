@@ -1,13 +1,13 @@
-// /frontend/pages/Login.js
+// /frontend/pages/AdminLogin.js
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
-function Login() {
+function AdminLogin() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        Student_Email: '',
-        Student_Password: ''
+        Lecturer_Email: '',
+        Lecturer_Password: ''
     });
     const [error, setError] = useState('');
 
@@ -20,10 +20,10 @@ function Login() {
         setError('');
         
         try {
-            const response = await axios.post('http://localhost:3001/auth/login', formData);
+            const response = await axios.post('http://localhost:3001/admin/login', formData);
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token); // Store JWT in localStorage
-                navigate('/welcome'); // Redirect to welcome page
+                localStorage.setItem('adminToken', response.data.token); // Store JWT in localStorage
+                navigate('/admin-dashboard'); // Redirect to admin dashboard
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please try again.');
@@ -32,16 +32,15 @@ function Login() {
 
     return (
         <div>
-            <h1>Login</h1>
+            <h1>Admin Login</h1>
             {error && <p>{error}</p>}
             <form onSubmit={handleSubmit}>
-                <input type="email" name="Student_Email" placeholder="Email" value={formData.Student_Email} onChange={handleChange} required /><br />
-                <input type="password" name="Student_Password" placeholder="Password" value={formData.Student_Password} onChange={handleChange} required /><br />
+                <input type="email" name="Lecturer_Email" placeholder="Email" value={formData.Lecturer_Email} onChange={handleChange} required /><br />
+                <input type="password" name="Lecturer_Password" placeholder="Password" value={formData.Lecturer_Password} onChange={handleChange} required /><br />
                 <button type="submit">Login</button>
-                <button onClick={navigate("/Register")}>Register</button>
             </form>
         </div>
     );
 }
 
-export default Login;
+export default AdminLogin;

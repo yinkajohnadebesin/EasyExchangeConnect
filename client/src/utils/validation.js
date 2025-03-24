@@ -11,8 +11,10 @@ export const patterns = {
 function validate(field, regex){
     if(regex.test(field.value)) {
         field.className = 'valid';
+        console.log(true);
     } else {
         field.className = 'invalid';
+        console.log(false);
     }
 }
 

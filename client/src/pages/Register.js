@@ -60,17 +60,17 @@ function Register() {
                 <p>This must be your Technological University of Dublin student ID number (e.g. C20426814)</p>
                 <input type="text" name="Student_FirstName" placeholder="First Name" value={formData.Student_FirstName} onChange={handleChange} required /><br />
                 <input type="text" name="Student_LastName" placeholder="Surname" value={formData.Student_LastName} onChange={handleChange} required /><br />
-                <input type="email" name="Student_Email" placeholder="Email Address" value={formData.Student_Email} onChange={handleChange} required /><br />
+                <input type="email" name="Student_Email" placeholder="Email Address" value={formData.Student_Email} onChange={handleChange} required />
                 <p>Email must be a valid Technological University of Sublin email address, e.g. c20426814@mytudublin.ie</p>
-                <input type="text" name="Student_Username" placeholder="Username" value={formData.Student_Username} onChange={handleChange} required /><br />
+                <input type="text" name="Student_Username" placeholder="Username" value={formData.Student_Username} onChange={handleChange} required />
                 <p>Username must contain only lowercase letters, numbers and hyphens and be 8 - 20 characters</p>
                 <input type="date" name="Student_DOB" placeholder="Date of Birth" value={formData.Student_DOB} onChange={handleChange} required /><br /><br />
                 <input type="password" name="Student_Password" placeholder="password" value={formData.Student_Password} onChange={handleChange} required /><br /><br />
                 <button type="submit">Register</button>
             </form>
             <br /><br />
-            <button onClick={() => navigate('/Login')} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>Go to Login</button>
-            <button onClick={() => navigate('/')} style={{ padding: '10px 20px', fontSize: '16px', cursor: 'pointer' }}>Back to Homepage</button>
+            <button onClick={() => navigate('/Login')}>Go to Login</button>
+            <button onClick={() => navigate('/')}>Back to Homepage</button>
         </div>
     );
 }
