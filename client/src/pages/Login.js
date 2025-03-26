@@ -38,7 +38,6 @@ function Login() {
                 <input type="email" name="Student_Email" placeholder="Email" value={formData.Student_Email} onChange={handleChange} required /><br />
                 <input type="password" name="Student_Password" placeholder="Password" value={formData.Student_Password} onChange={handleChange} required /><br />
                 <button type="submit">Login</button>
-                <button onClick={navigate("/Register")}>Register</button>
             </form>
         </div>
     );

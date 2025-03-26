@@ -22,8 +22,8 @@ import Navbar from "./components/navbar"
 const App = () => {
     return (
         <div className="App">
-        <Navbar></Navbar>
             <Router>
+                <Navbar />
                 <Routes>
                     <Route path="/" element={<Login />} />
                     <Route path="/admin-login" element={<AdminLogin />} />
