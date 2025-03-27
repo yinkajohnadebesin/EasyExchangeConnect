@@ -39,6 +39,7 @@ function Login() {
                 <input type="password" name="Student_Password" placeholder="Password" value={formData.Student_Password} onChange={handleChange} required /><br />
                 <button type="submit">Login</button>
             </form>
+            <button onClick={() => navigate('/Register')}>Sign up As a Student</button>
         </div>
     );
 }

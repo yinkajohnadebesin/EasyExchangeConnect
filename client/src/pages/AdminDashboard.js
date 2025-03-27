@@ -38,7 +38,7 @@ function AdminDashboard() {
             {admin ? <h2>Welcome, {admin.Lecturer_FirstName}!</h2> : <p>Loading...</p>}
             <button onClick={() => {
                 localStorage.removeItem('adminToken');
-                navigate('/admin-login');
+                navigate('/');
             }}>Logout</button>
         </div>
     );

@@ -38,7 +38,7 @@ function Welcome() {
             {user ? <h2>Hello, {user.Student_FirstName}!</h2> : <p>Loading...</p>}
             <button onClick={() => {
                 localStorage.removeItem('token');
-                navigate('/login');
+                navigate('/');
             }}>Logout</button>
         </div>
     );

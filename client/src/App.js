@@ -25,12 +25,11 @@ const App = () => {
             <Router>
                 <Navbar />
                 <Routes>
-                    <Route path="/" element={<Login />} />
+                    <Route path="/" element={<Home />} />
                     <Route path="/admin-login" element={<AdminLogin />} />
-                    <Route path="/admin/register" element={<AdminRegister />} />
+                    <Route path="/admin-register" element={<AdminRegister />} />
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/welcome" element={<Welcome />} />
-                    <Route path="/Home" element={<Home />} />
                     <Route path="/Login" element={<Login />} />
                     <Route path="/Register" element={<Register />} />
                     <Route path="/CommunityTC" element={<CommunityTC />} />
