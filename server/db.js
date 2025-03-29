@@ -21,6 +21,8 @@ const { login } = require("./controllers/authController"); // Import login contr
 const authRoutes = require("./routes/auth"); // Import auth routes
 const userRoutes = require("./routes/user"); // Import user routes
 const adminRoutes = require("./routes/admin"); // Import admin routes
+const universityRoutes = require("./routes/universities");
+
 
 const port = 3001;
 
@@ -28,6 +30,8 @@ const port = 3001;
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
+app.use("/universities", universityRoutes);
+
 
 app.get("/Users", (req, res) => {
     fetchUsers((err, results) => {

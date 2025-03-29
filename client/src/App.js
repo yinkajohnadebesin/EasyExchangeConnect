@@ -17,6 +17,7 @@ import Users from "./pages/Users"
 import Comments from "./pages/Comments"
 import Application from "./pages/Application"
 import Universities from "./pages/Universities"
+import UniversityDetail from "./pages/UniversityDetail"
 
 import Navbar from "./components/navbar"
 
@@ -38,6 +39,7 @@ const App = () => {
                     <Route path="/Users" element={<Users />} />
                     <Route path="/Application" element={<Application />} />
                     <Route path="/Universities" element={<Universities />} />
+                    <Route path="/universities/:id" element={<UniversityDetail />} />
                     <Route path="/FAQs" element={<FAQs />} />
                 </Routes>
             </Router>
