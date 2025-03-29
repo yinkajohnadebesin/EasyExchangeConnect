@@ -16,7 +16,7 @@ export default function Navbar() {
                 )}
                 {isAdminLoggedIn && (
                     <li>
-                        <a href="/admin/dashboard">Create</a>
+                        <button onClick={() => navigate('/university/create')}>Create</button>
                     </li>
                 )}
                 {(!isStudentLoggedIn && !isAdminLoggedIn) && (
@@ -25,7 +25,7 @@ export default function Navbar() {
                     </li>
                 )}
                 <li>
-                    <a href="/CommunityTC">EasyExchange+</a>
+                    <button onClick={() => navigate('/CommunityTC')}>EasyExchangeConnect+</button>
                 </li>
             </ul>
         </nav>

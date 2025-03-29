@@ -40,6 +40,7 @@ function AdminDashboard() {
                 localStorage.removeItem('adminToken');
                 navigate('/');
             }}>Logout</button>
+            <button onClick={() => navigate('/universities')}>Manage Universities</button>
         </div>
     );
 }

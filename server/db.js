@@ -13,7 +13,7 @@ app.use(cors());
 
 const openai = require("./utils/openaiServices.js");
 
-const { fetchUsers, fetchComments } = require("./fetches.js");
+const { fetchUsers, fetchComments, fetchCities, fetchCountries } = require("./fetches.js");
 const { makeComment, createStudent } = require("./posts.js");
 
 const { login } = require("./controllers/authController"); // Import login controller
@@ -22,15 +22,20 @@ const authRoutes = require("./routes/auth"); // Import auth routes
 const userRoutes = require("./routes/user"); // Import user routes
 const adminRoutes = require("./routes/admin"); // Import admin routes
 const universityRoutes = require("./routes/universities");
+const adminUniversityRoutes = require("./routes/adminUniversities");
+
 
 
 const port = 3001;
 
 // Register authentication, user, and admin routes
+
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/universities", universityRoutes);
+app.use("/admin", adminUniversityRoutes);
+
 
 
 app.get("/Users", (req, res) => {
@@ -45,6 +50,26 @@ app.get("/Users", (req, res) => {
 
 app.get("/Comments", (req, res) => {
     fetchComments((err, results) => {
+        if (err) {
+            res.status(500).send("Error fetching data");
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.get("/cities", (req, res) => {
+    fetchCities((err, results) => {
+        if (err) {
+            res.status(500).send("Error fetching data");
+            return;
+        }
+        res.json(results);
+    });
+});
+
+app.get("/countries", (req, res) => {
+    fetchCountries((err, results) => {
         if (err) {
             res.status(500).send("Error fetching data");
             return;
@@ -86,6 +111,7 @@ app.post("/ask", async (req, res) => {
         res.status(500).json({ message: "Error fetching response" });
     }
 });
+
 // Register a new user
 app.post('/Register', async (req, res) => {
     const { Student_ID, Student_FirstName, Student_LastName, Student_Email, Student_Username, Student_DOB, Student_Password } = req.body;

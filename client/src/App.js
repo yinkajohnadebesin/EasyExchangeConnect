@@ -17,7 +17,8 @@ import Users from "./pages/Users"
 import Comments from "./pages/Comments"
 import Application from "./pages/Application"
 import Universities from "./pages/Universities"
-import UniversityDetail from "./pages/UniversityDetail"
+import UniversityDetail from "./pages/getUniversity"
+import AdminCreateUniversity from "./pages/AdminCreateUniversity"
 
 import Navbar from "./components/navbar"
 
@@ -41,6 +42,7 @@ const App = () => {
                     <Route path="/Universities" element={<Universities />} />
                     <Route path="/universities/:id" element={<UniversityDetail />} />
                     <Route path="/FAQs" element={<FAQs />} />
+                    <Route path="/university/create" element={<AdminCreateUniversity />} />
                 </Routes>
             </Router>
         </div>

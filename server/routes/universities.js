@@ -72,4 +72,22 @@ router.get("/:id", (req, res) => {
     });
 });
 
+// POST a new university
+router.post("/", (req, res) => {
+    const { University_Name, Title, City_ID, Description } = req.body;
+
+    const query = `
+        INSERT INTO Universities (University_Name, Title, City_ID, Description)
+        VALUES (?, ?, ?, ?)
+    `;
+
+    connection.query(query, [University_Name, Title, City_ID, Description], (err, results) => {
+        if (err) {
+            return res.status(500).json({ message: "Error adding university", error: err });
+        }
+        res.status(201).json({ message: "University added successfully", universityId: results.insertId });
+    });
+});
+
+
 module.exports = router;
