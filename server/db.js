@@ -13,18 +13,19 @@ app.use(cors());
 
 const openai = require("./utils/openaiServices.js");
 
-const { fetchUsers, fetchComments, fetchCities, fetchCountries } = require("./fetches.js");
-const { makeComment, createStudent } = require("./posts.js");
+const { fetchUsers, createStudent } = require("./models/userModel");
+const { fetchComments, makeComment } = require("./models/commentModel");
+const { getAllCities } = require("./models/cityModel");
+const { getAllCountries } = require("./models/countryModel");
 
 const { login } = require("./controllers/authController"); // Import login controller
 
 const authRoutes = require("./routes/auth"); // Import auth routes
 const userRoutes = require("./routes/user"); // Import user routes
 const adminRoutes = require("./routes/admin"); // Import admin routes
+const commentRoutes = require("./routes/comments");
 const universityRoutes = require("./routes/universities");
 const adminUniversityRoutes = require("./routes/adminUniversities");
-
-
 
 const port = 3001;
 
@@ -35,8 +36,7 @@ app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);
 app.use("/universities", universityRoutes);
 app.use("/admin", adminUniversityRoutes);
-
-
+app.use("/comments", commentRoutes);
 
 app.get("/Users", (req, res) => {
     fetchUsers((err, results) => {
@@ -59,7 +59,7 @@ app.get("/Comments", (req, res) => {
 });
 
 app.get("/cities", (req, res) => {
-    fetchCities((err, results) => {
+    getAllCities((err, results) => {
         if (err) {
             res.status(500).send("Error fetching data");
             return;
@@ -69,7 +69,7 @@ app.get("/cities", (req, res) => {
 });
 
 app.get("/countries", (req, res) => {
-    fetchCountries((err, results) => {
+    getAllCountries((err, results) => {
         if (err) {
             res.status(500).send("Error fetching data");
             return;
