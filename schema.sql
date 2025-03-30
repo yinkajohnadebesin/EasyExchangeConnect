@@ -66,28 +66,44 @@ CREATE TABLE Replies (
     Reply_DateCreated TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-DROP TABLE IF EXISTS Country;
-
+-- COUNTRY
 CREATE TABLE Country (
-	Country_ID INT PRIMARY KEY NOT NULL,
-    Country_Name CHAR (50) UNIQUE NOT NULL
+    Country_ID INT PRIMARY KEY AUTO_INCREMENT,
+    Country_Name VARCHAR(100) UNIQUE NOT NULL
 );
 
-DROP TABLE IF EXISTS Cities;
-
+-- CITIES
 CREATE TABLE Cities (
-	City_ID INT PRIMARY KEY NOT NULL,
-    City_Name CHAR (50) UNIQUE NOT NULL,
-    Country_ID INT,
-    Population INTEGER NOT NULL,
-    FOREIGN KEY(Country_ID) REFERENCES Country(Country_ID)
+    City_ID INT PRIMARY KEY AUTO_INCREMENT,
+    City_Name VARCHAR(100) NOT NULL,
+    Country_ID INT NOT NULL,
+    Population INT,
+    FOREIGN KEY (Country_ID) REFERENCES Country(Country_ID)
 );
 
-DROP TABLE IF EXISTS Universities;
-
+-- UNIVERSITIES
 CREATE TABLE Universities (
-	University_ID INT PRIMARY KEY NOT NULL,
-    University_Name VARCHAR (100) UNIQUE NOT NULL,
-    City_ID INT,
-    FOREIGN KEY(City_ID) REFERENCES Cities(City_ID)
+    University_ID INT PRIMARY KEY AUTO_INCREMENT,
+    University_Name VARCHAR(150) NOT NULL,
+    City_ID INT NOT NULL,
+    Title VARCHAR(150),
+    Description TEXT,
+    FOREIGN KEY (City_ID) REFERENCES Cities(City_ID)
+);
+
+-- UNIVERSITY PROGRAMME CODES
+CREATE TABLE University_Programmes (
+    Programme_ID INT PRIMARY KEY AUTO_INCREMENT,
+    University_ID INT NOT NULL,
+    Programme_Code VARCHAR(50) NOT NULL,
+    FOREIGN KEY (University_ID) REFERENCES Universities(University_ID)
+);
+
+-- UNIVERSITY IMAGES
+CREATE TABLE University_Images (
+    Image_ID INT PRIMARY KEY AUTO_INCREMENT,
+    University_ID INT NOT NULL,
+    Image_URL TEXT NOT NULL,
+    Caption VARCHAR(255),
+    FOREIGN KEY (University_ID) REFERENCES Universities(University_ID)
 );

@@ -32,9 +32,22 @@ function AdminCreateUniversity() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setMessage('');
-
+    
         try {
-            const response = await axios.post('http://localhost:3001/admin/universities', form);
+            const payload = {
+                University_Name: form.university_name,
+                Title: form.title,
+                Description: form.description,
+                City_ID: form.city_id,
+                new_city: form.new_city,
+                new_country: form.new_country,
+                country_id: form.country_id
+            };
+    
+            const response = await axios.post('http://localhost:3001/admin/universities', payload, {
+                headers: { Authorization: localStorage.getItem("adminToken") }
+            });
+    
             if (response.status === 201) {
                 setMessage('University created successfully!');
                 setForm({
@@ -46,7 +59,7 @@ function AdminCreateUniversity() {
             setMessage(error.response?.data?.message || 'An error occurred.');
         }
     };
-
+    
     return (
         <div>
             <h1>Create New University</h1>
