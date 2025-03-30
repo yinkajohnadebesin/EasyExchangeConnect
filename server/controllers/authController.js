@@ -3,6 +3,8 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
 
+const { findUserByEmail, createStudent } = require("../models/userModel");
+
 dotenv.config();
 
 // User login function
@@ -37,6 +39,60 @@ const login = async (req, res) => {
     }
 };
 
+const register = async (req, res) => {
+    const {
+        Student_ID,
+        Student_FirstName,
+        Student_LastName,
+        Student_Email,
+        Student_Username,
+        Student_DOB,
+        Student_Password
+    } = req.body;
+
+    if (!Student_ID || !Student_FirstName || !Student_LastName ||
+        !Student_Email || !Student_Username || !Student_DOB || !Student_Password) {
+        return res.status(400).json({ message: "All fields are required" });
+    }
+
+    try {
+        const hashedPassword = await bcrypt.hash(Student_Password, 10);
+
+        const formData = {
+            Student_ID,
+            Student_FirstName,
+            Student_LastName,
+            Student_Email,
+            Student_Username,
+            Student_DOB,
+            Student_Password: hashedPassword
+        };
+
+        await createStudent(formData);
+
+        const token = jwt.sign(
+            { Student_ID, Student_Email },
+            process.env.JWT_SECRET,
+            { expiresIn: "1h" }
+        );
+
+        res.status(201).json({
+            message: "Student user created successfully",
+            token,
+            user: {
+                Student_ID,
+                Student_FirstName,
+                Student_LastName,
+                Student_Email,
+                Student_Username
+            }
+        });
+
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error });
+    }
+};
+
 // Middleware to verify token
 const verifyToken = (req, res, next) => {
     const token = req.header("Authorization");
@@ -51,4 +107,4 @@ const verifyToken = (req, res, next) => {
     }
 };
 
-module.exports = { login, verifyToken };
+module.exports = { login, verifyToken, register };
