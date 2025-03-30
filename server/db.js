@@ -25,6 +25,8 @@ const userRoutes = require("./routes/user"); // Import user routes
 const adminRoutes = require("./routes/admin"); // Import admin routes
 const commentRoutes = require("./routes/comments");
 const universityRoutes = require("./routes/universities");
+const countryRoutes = require("./routes/countries");
+const cityRoutes = require("./routes/cities");
 const adminUniversityRoutes = require("./routes/adminUniversities");
 
 const port = 3001;
@@ -37,6 +39,8 @@ app.use("/admin", adminRoutes);
 app.use("/universities", universityRoutes);
 app.use("/admin", adminUniversityRoutes);
 app.use("/comments", commentRoutes);
+app.use("/countries", countryRoutes);
+app.use("/cities", cityRoutes);
 
 app.get("/Users", (req, res) => {
     fetchUsers((err, results) => {
@@ -50,26 +54,6 @@ app.get("/Users", (req, res) => {
 
 app.get("/Comments", (req, res) => {
     fetchComments((err, results) => {
-        if (err) {
-            res.status(500).send("Error fetching data");
-            return;
-        }
-        res.json(results);
-    });
-});
-
-app.get("/cities", (req, res) => {
-    getAllCities((err, results) => {
-        if (err) {
-            res.status(500).send("Error fetching data");
-            return;
-        }
-        res.json(results);
-    });
-});
-
-app.get("/countries", (req, res) => {
-    getAllCountries((err, results) => {
         if (err) {
             res.status(500).send("Error fetching data");
             return;
