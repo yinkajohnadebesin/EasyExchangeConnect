@@ -1,8 +1,11 @@
 // /frontend/pages/AdminCreateUniversity.js
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 function AdminCreateUniversity() {
+    const navigate = useNavigate();
+    
     const [countries, setCountries] = useState([]);
     const [cities, setCities] = useState([]);
 
@@ -105,6 +108,7 @@ function AdminCreateUniversity() {
 
                 <button type="submit">Create University</button>
             </form>
+            <button type="button" onClick={() => navigate(-1)}>Back</button>
         </div>
     );
 }

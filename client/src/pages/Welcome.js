@@ -36,10 +36,6 @@ function Welcome() {
             <h1>Welcome</h1>
             {error && <p>{error}</p>}
             {user ? <h2>Hello, {user.Student_FirstName}!</h2> : <p>Loading...</p>}
-            <button onClick={() => {
-                localStorage.removeItem('token');
-                navigate('/');
-            }}>Logout</button>
         </div>
     );
 }

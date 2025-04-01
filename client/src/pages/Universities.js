@@ -54,7 +54,12 @@ function Universities() {
                         <p><strong>{uni.Title}</strong></p>
                         <p>Location: {uni.City_Name}, {uni.Country_Name}</p>
                         <button onClick={() => navigate(`/universities/${uni.University_ID}`)}>View Details</button>
-                        {isAdminLoggedIn && (<button onClick={() => handleDelete(uni.University_ID)}>Delete</button>)}
+                        {isAdminLoggedIn && (
+                            <div>
+                                <button onClick={() => handleDelete(uni.University_ID)}>Delete</button>
+                                <button onClick={() => navigate(`/universities/edit/${uni.University_ID}`)}>Edit</button>
+                            </div>
+                        )}
                     </li>
                 ))}
             </ul>

@@ -1,23 +1,56 @@
 import { useNavigate } from 'react-router-dom';
 
 export default function Navbar() {
+    const navigate = useNavigate();
+
     const isStudentLoggedIn = localStorage.getItem("token") !== null;
     const isAdminLoggedIn = localStorage.getItem("adminToken") !== null;
-    const navigate = useNavigate();
+
+    const handleLogoClick = () => {
+        if (isStudentLoggedIn) {
+            navigate("/welcome");
+        } else if (isAdminLoggedIn) {
+            navigate("/admin/dashboard");
+        } else {
+            navigate("/");
+        }
+    };
 
     return (
         <nav className="nav">
-            <a href="/" className="site-title">EasyExchangeConnect</a>
+            <button onClick={handleLogoClick} className="site-title" style={{ background: "none", border: "none", cursor: "pointer" }}>
+                EasyExchangeConnect
+            </button>
             <ul>
                 {isStudentLoggedIn && (
-                    <li>
-                        <a href="/Application">Apply</a>
-                    </li>
+                    <ul>
+                        <li>
+                            <button onClick={() => { localStorage.removeItem('token'); 
+                                navigate('/');
+                                }}>Logout
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={() => navigate('/Application')}>Apply</button>
+                        </li>
+                        <li>
+                            <button onClick={() => navigate('/Universities')}>Universities</button>
+                        </li>
+                    </ul>
                 )}
                 {isAdminLoggedIn && (
-                    <li>
-                        <button onClick={() => navigate('/university/create')}>Create</button>
-                    </li>
+                    <ul>
+                        <li>
+                            <button onClick={() => { localStorage.removeItem('adminToken'); 
+                                navigate('/');
+                                }}>Logout
+                            </button>
+                        </li>
+                        <li>
+                            <button onClick={() => navigate('/university/create')}>Create</button>
+                        </li>
+                        
+                    </ul>
                 )}
                 {(!isStudentLoggedIn && !isAdminLoggedIn) && (
                     <li>

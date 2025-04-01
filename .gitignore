@@ -117,3 +117,7 @@ dist
 
 # .vscode
 .vs/
+
+# uploaded files
+/uploads
+/uploads/*

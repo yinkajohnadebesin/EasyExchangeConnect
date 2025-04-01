@@ -1,20 +1,93 @@
 const {
+    // GETS
+    getAllUniCodesById,
     getAllUniversities,
     getUniversityById,
-    insertUniversity,
     getUniversityProgrammes,
     getUniversityImages,
     getCityAndCountryByUniversity,
+    // CREATES
+    insertUniversity,
+    makeUniProgrammeCode,
+    addUniImage,
+    // DELETES
     deleteUniversityImages,
     deleteUniversityById,
-    isCityUsed,
     deleteCityById,
+    deleteCountryById,
+    deleteProgrammeCodeByUni,
+    // MISCALLANEOUS
+    isCityUsed,
     isCountryUsed,
-    deleteCountryById
+    // UPDATES
+    editUniversityById,
 } = require("../models/universityModel");
 
 const { insertCountry } = require("../models/countryModel");
 const { insertCity } = require("../models/cityModel");
+
+const removeUniProgrammeCode = async (req, res) => {
+    const { id } = req.params;
+    const { code } = req.params;
+
+    try {
+        await deleteProgrammeCodeByUni(id, code);
+        const updatedCodes = await getAllUniCodesById(id);
+
+        res.status(200).json({ message: "Programme code deleted successfully.", codes: updatedCodes });
+    } catch (err) {
+        console.error("Error deleting programme code:", err);
+        res.status(500).json({ message: "Failed to delete programme code.", error: err });
+    }
+};
+
+const addProgrammeCode = async (req, res) => {
+    const universityId = req.params.id;
+    const { Programme_Code } = req.body;
+
+    if (!Programme_Code) {
+        return res.status(400).json({ message: "Programme code is required." });
+    }
+
+    try {
+        await makeUniProgrammeCode(universityId, Programme_Code);
+        const updatedProgrammes = await getAllUniCodesById(universityId);
+        res.status(201).json({ message: "Programme code added.", codes: updatedProgrammes });
+    } catch (err) {
+        console.error("Error adding programme code:", err);
+        res.status(500).json({ message: "Failed to add programme code", error: err });
+    }
+};
+
+const changeUni = async (req, res) => {
+    const uniId = req.params.id;
+    const { University_Name, Title, City_ID, Description, Caption } = req.body;
+    const uniImageFile = req.file;
+
+    try {
+        const updatedUniResult = await editUniversityById({
+            University_ID: uniId,
+            University_Name,
+            Title,
+            City_ID,
+            Description,
+            Caption
+        });
+
+        if (uniImageFile) {
+            const uniImageDirectoryPath = `/uploads/universities/${uniImageFile.filename}`;
+            await addUniImage(uniId, uniImageDirectoryPath, `${Caption}`);
+        }
+
+        res.status(200).json({
+            message: "University was updated successfully!", result: updatedUniResult
+        });
+
+    } catch (err) {
+        console.error("Something went wrong updating this university:", err);
+        res.status(500).json({ message: "There has been a failure updating the university", error: err });
+    }
+}
 
 const getUniversities = async (req, res) => {
     try {
@@ -106,9 +179,18 @@ const deleteUniversity = async (req, res) => {
     }
 };
 
+
+
 module.exports = {
+    // GETS
     getUniversities,
     getUniversity,
+    // CREATES
+    addProgrammeCode,
     createUniversity,
-    deleteUniversity
+    // DELETES
+    deleteUniversity,
+    removeUniProgrammeCode,
+    // UPDATES
+    changeUni,
 };

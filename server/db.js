@@ -5,6 +5,7 @@ const express = require("express");
 const app = express();
 app.use(express.json()); // Middleware to parse JSON requests
 
+const path = require("path");
 const cors = require("cors");
 app.use(cors());
 
@@ -21,8 +22,10 @@ const adminUniversityRoutes = require("./routes/adminUniversities");
 
 const port = 3001;
 
-// Register authentication, user, and admin routes
+// Middleware to handle picutre uploads from the frontend
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
+// Register authentication, user, and admin routes
 app.use("/auth", authRoutes);
 app.use("/user", userRoutes);
 app.use("/admin", adminRoutes);

@@ -1,5 +1,37 @@
 const connection = require("../dbconnection");
 
+const deleteProgrammeCodeByUni = (uniId, code) => {
+    return new Promise((resolve, reject) => {
+        const query = "DELETE FROM University_Programmes WHERE University_ID = ? AND Programme_Code = ?";
+        connection.query(query, [uniId, code], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+};
+
+
+const getAllUniCodesById = (universityId) => {
+    return new Promise((resolve, reject) => {
+        const query = 'SELECT Programme_Code FROM University_Programmes WHERE University_ID = ?';
+        connection.query(query, [universityId], (err, results) => {
+            if (err) return reject(err);
+            resolve(results.map(row => row.Programme_Code));
+        });
+    });
+};
+
+const makeUniProgrammeCode = (universityId, programmeCode) => {
+    return new Promise((resolve, reject) => {
+        const query = 'INSERT INTO University_Programmes (University_ID, Programme_Code) VALUES (?, ?)';
+        connection.query(query, [universityId, programmeCode], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+};
+
+
 const getAllUniversities = () => {
     return new Promise((resolve, reject) => {
         const query = ' SELECT u.University_ID, u.University_Name, u.Title, c.City_Name, co.Country_Name FROM Universities u JOIN Cities c ON u.City_ID = c.City_ID JOIN Country co ON c.Country_ID = co.Country_ID';
@@ -16,6 +48,26 @@ const getUniversityById = (id) => {
         connection.query(query, [id], (err, results) => {
             if (err || results.length === 0) return reject(err || new Error("Not found"));
             resolve(results[0]);
+        });
+    });
+};
+
+const editUniversityById = ({ University_ID, University_Name, Title, City_ID, Description }) => {
+    return new Promise((resolve, reject) => {
+        const query = 'UPDATE Universities SET University_Name = ?, Title = ?, City_ID = ?, Description = ? WHERE University_ID = ?';
+        connection.query(query, [University_Name, Title, City_ID, Description, University_ID], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
+        });
+    });
+};
+
+const addUniImage = (uniId, imageURL, caption) => {
+    return new Promise((resolve, reject) => {
+        const query = "INSERT INTO University_Images (University_ID, Image_URL, Caption) VALUES (?, ?, ?)";
+        connection.query(query, [uniId, imageURL, caption], (err, results) => {
+            if (err) return reject(err);
+            resolve(results);
         });
     });
 };
@@ -120,17 +172,28 @@ const deleteCountryById = (countryId) => {
     });
 };
 
+
 module.exports = {
-    insertUniversity,
+    // GETS
+    getAllUniCodesById,
     getAllUniversities,
     getUniversityById,
     getUniversityProgrammes,
     getUniversityImages,
     getCityAndCountryByUniversity,
+    // DELETES
     deleteUniversityImages,
     deleteUniversityById,
-    isCityUsed,
+    deleteProgrammeCodeByUni,
     deleteCityById,
-    isCountryUsed,
     deleteCountryById,
+    // MISCELLANEOUS
+    isCityUsed,
+    isCountryUsed,
+    // UPDATES
+    editUniversityById,
+    // POSTS
+    insertUniversity,
+    addUniImage,
+    makeUniProgrammeCode,
 };

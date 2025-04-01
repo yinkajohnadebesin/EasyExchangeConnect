@@ -41,7 +41,9 @@ function UniversityDetail() {
             <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 {university.Images.map((img, index) => (
                     <div key={index}>
-                        <img src={img.Image_URL} alt={img.Caption || 'University Image'} style={{ width: '300px' }} />
+                        <img src={`http://localhost:3001${img.Image_URL}`}
+                            alt={img.Caption || 'University Image'}
+                            style={{ width: '300px' }}/>
                         <p>{img.Caption}</p>
                     </div>
                 ))}
