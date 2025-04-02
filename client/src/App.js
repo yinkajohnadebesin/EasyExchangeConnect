@@ -22,6 +22,7 @@ import AdminCreateUniversity from "./pages/AdminCreateUniversity"
 import UpdateUniversityDetails from "./pages/EditUniversity"
 
 import Navbar from "./components/navbar"
+import YinkaBot from './pages/YinkaBot';
 
 const App = () => {
     return (
@@ -46,6 +47,7 @@ const App = () => {
                     <Route path="/university/create" element={<AdminCreateUniversity />} />
                     <Route path="/universities/edit/:id" element={<UpdateUniversityDetails />} />
                 </Routes>
+                <YinkaBot/>
             </Router>
         </div>
     );

@@ -16,51 +16,95 @@ export default function Navbar() {
         }
     };
 
+    const handleLogout = (type) => {
+        if (type === 'student') {
+            localStorage.removeItem('token');
+            localStorage.removeItem('studentUsername');
+        } else {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminUsername');
+        }
+        navigate('/');
+    };
+
     return (
-        <nav className="nav">
-            <button onClick={handleLogoClick} className="site-title" style={{ background: "none", border: "none", cursor: "pointer" }}>
+        <nav className="sticky top-0 z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-md shadow-md border-b border-gray-200">
+            <button
+                onClick={handleLogoClick}
+                className="text-xl md:text-2xl font-bold text-blue-600 hover:text-purple-600 transition duration-300"
+            >
                 EasyExchangeConnect
             </button>
-            <ul>
+
+            <ul className="flex gap-4 items-center text-sm md:text-base font-medium text-gray-700">
                 {isStudentLoggedIn && (
-                    <ul>
+                    <>
                         <li>
-                            <button onClick={() => { localStorage.removeItem('token');
-                                localStorage.removeItem("studentUsername"); 
-                                navigate('/');
-                                }}>Logout
+                            <button
+                                onClick={() => handleLogout('student')}
+                                className="px-3 py-1 rounded hover:bg-blue-100 transition"
+                            >
+                                Logout
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => navigate('/Application')}>Apply</button>
+                            <button
+                                onClick={() => navigate('/Application')}
+                                className="px-3 py-1 rounded hover:bg-blue-100 transition"
+                            >
+                                Apply
+                            </button>
                         </li>
                         <li>
-                            <button onClick={() => navigate('/Universities')}>Universities</button>
+                            <button
+                                onClick={() => navigate('/Universities')}
+                                className="px-3 py-1 rounded hover:bg-blue-100 transition"
+                            >
+                                Universities
+                            </button>
                         </li>
-                    </ul>
+                    </>
                 )}
+
                 {isAdminLoggedIn && (
-                    <ul>
+                    <>
                         <li>
-                            <button onClick={() => { localStorage.removeItem('adminToken'); 
-                                localStorage.removeItem("adminUsername");
-                                navigate('/');
-                                }}>Logout
+                            <button
+                                onClick={() => handleLogout('admin')}
+                                className="px-3 py-1 rounded hover:bg-purple-100 transition"
+                            >
+                                Logout
                             </button>
                         </li>
                         <li>
-                            <button onClick={() => navigate('/university/create')}>Create</button>
+                            <button
+                                onClick={() => navigate('/university/create')}
+                                className="px-3 py-1 rounded hover:bg-purple-100 transition"
+                            >
+                                Create
+                            </button>
                         </li>
-                        
-                    </ul>
+                    </>
                 )}
+
                 {(!isStudentLoggedIn && !isAdminLoggedIn) && (
                     <li>
-                        <button onClick={() => navigate('/Universities')}>Universities</button>
+                        <button
+                            onClick={() => navigate('/Universities')}
+                            className="px-3 py-1 rounded hover:bg-gray-100 transition"
+                        >
+                            Universities
+                        </button>
                     </li>
                 )}
+
                 <li>
-                    <button onClick={() => navigate('/CommunityTC')}>EasyExchangeConnect+</button>
+                    <button
+                        onClick={() => navigate('/CommunityTC')}
+                        className="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-full shadow hover:scale-105 transition"
+                    >
+                        EasyExchangeConnect+
+                    </button>
                 </li>
             </ul>
         </nav>
