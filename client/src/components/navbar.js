@@ -25,7 +25,8 @@ export default function Navbar() {
                 {isStudentLoggedIn && (
                     <ul>
                         <li>
-                            <button onClick={() => { localStorage.removeItem('token'); 
+                            <button onClick={() => { localStorage.removeItem('token');
+                                localStorage.removeItem("studentUsername"); 
                                 navigate('/');
                                 }}>Logout
                             </button>
@@ -42,6 +43,7 @@ export default function Navbar() {
                     <ul>
                         <li>
                             <button onClick={() => { localStorage.removeItem('adminToken'); 
+                                localStorage.removeItem("adminUsername");
                                 navigate('/');
                                 }}>Logout
                             </button>

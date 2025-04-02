@@ -1,22 +1,24 @@
 const jwt = require("jsonwebtoken");
 
-// User token verification...
+const getTokenFromHeader = (req) => req.header("Authorization");
+
+// General user or admin verification
 const verifyToken = (req, res, next) => {
-    const token = req.header("Authorization");
+    const token = getTokenFromHeader(req);
     if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded;
+        req.user = decoded; // user OR admin gets attached
         next();
     } catch (err) {
         res.status(400).json({ message: "Invalid token" });
     }
 };
 
-// Admin token verification... 
+// Strict admin-only check
 const verifyAdminToken = (req, res, next) => {
-    const token = req.header("Authorization");
+    const token = getTokenFromHeader(req);
     if (!token) return res.status(401).json({ message: "Access denied. No token provided." });
 
     try {

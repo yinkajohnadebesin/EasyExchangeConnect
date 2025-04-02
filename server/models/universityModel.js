@@ -10,7 +10,6 @@ const deleteProgrammeCodeByUni = (uniId, code) => {
     });
 };
 
-
 const getAllUniCodesById = (universityId) => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT Programme_Code FROM University_Programmes WHERE University_ID = ?';
@@ -30,7 +29,6 @@ const makeUniProgrammeCode = (universityId, programmeCode) => {
         });
     });
 };
-
 
 const getAllUniversities = () => {
     return new Promise((resolve, reject) => {

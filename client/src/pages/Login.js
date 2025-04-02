@@ -1,4 +1,3 @@
-// /frontend/pages/Login.js
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -22,9 +21,11 @@ function Login() {
         try {
             const response = await axios.post('http://localhost:3001/auth/login', formData);
             if (response.data.token) {
-                localStorage.setItem('token', response.data.token); // Store JWT in localStorage
-                navigate('/welcome'); // Redirect to welcome page
+                localStorage.setItem('token', response.data.token);
+                localStorage.setItem('studentUsername', response.data.user.Student_Username);
+                navigate('/welcome');
             }
+            
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please try again.');
         }
@@ -40,6 +41,7 @@ function Login() {
                 <button type="submit">Login</button>
             </form>
             <button onClick={() => navigate('/Register')}>Sign up As a Student</button>
+            <button onClick={() => navigate('/')}>Back to home</button>
         </div>
     );
 }

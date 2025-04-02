@@ -22,22 +22,29 @@ const adminLogin = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { Lecturer_ID: admin.Lecturer_ID, Lecturer_Email: admin.Lecturer_Email },
+            {
+                Lecturer_ID: admin.Lecturer_ID,
+                Lecturer_Email: admin.Lecturer_Email,
+                Lecturer_Username: admin.Lecturer_Username
+            },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
-
+        
         res.json({
             message: "Admin login successful",
             token,
             admin: {
                 Lecturer_ID: admin.Lecturer_ID,
-                Lecturer_Email: admin.Lecturer_Email
+                Lecturer_Email: admin.Lecturer_Email,
+                Lecturer_Username: admin.Lecturer_Username
             }
         });
+        
 
     } catch (error) {
         res.status(401).json({ message: "Invalid email or password" });
+        console.log(error);
     }
 };
 
@@ -75,10 +82,15 @@ const adminRegister = async (req, res) => {
         });
 
         const token = jwt.sign(
-            { Lecturer_ID, Lecturer_Email },
+            {
+              Lecturer_ID,
+              Lecturer_Email,
+              Lecturer_Username
+            },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
-        );
+          );
+          
 
         res.status(201).json({
             message: "Admin registered successfully",

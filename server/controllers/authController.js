@@ -1,4 +1,3 @@
-// /backend/controllers/authController.js
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const dotenv = require("dotenv");
@@ -7,7 +6,6 @@ const { findUserByEmail, createStudent } = require("../models/userModel");
 
 dotenv.config();
 
-// User login function
 const login = async (req, res) => {
     const { Student_Email, Student_Password } = req.body;
     if (!Student_Email || !Student_Password) {
@@ -23,16 +21,26 @@ const login = async (req, res) => {
         }
 
         const token = jwt.sign(
-            { Student_ID: user.Student_ID, Student_Email: user.Student_Email },
+            {
+              Student_ID: user.Student_ID,
+              Student_Email: user.Student_Email,
+              Student_Username: user.Student_Username
+            },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
-        );
+          );          
+          
 
-        res.json({
+          res.json({
             message: "Login successful",
             token,
-            user: { Student_ID: user.Student_ID, Student_Email: user.Student_Email }
+            user: {
+                Student_ID: user.Student_ID,
+                Student_Email: user.Student_Email,
+                Student_Username: user.Student_Username
+            }
         });
+        
 
     } catch (error) {
         res.status(401).json({ message: "Invalid email or password" });
@@ -71,7 +79,11 @@ const register = async (req, res) => {
         await createStudent(formData);
 
         const token = jwt.sign(
-            { Student_ID, Student_Email },
+            {
+              Student_ID,
+              Student_Email,
+              Student_Username
+            },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
@@ -92,6 +104,7 @@ const register = async (req, res) => {
         res.status(500).json({ message: "Server error", error });
     }
 };
+
 
 // Middleware to verify token
 const verifyToken = (req, res, next) => {

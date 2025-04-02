@@ -38,11 +38,11 @@ function Register() {
         setSuccessMessage('');
 
         try {
-            const response = await axios.post('http://localhost:3001/register', formData);
+            const response = await axios.post('http://localhost:3001/auth/register', formData);
 
             if (response.status === 201) {
                 setSuccessMessage('Registration successful!');
-                navigate('/Login'); // Redirect to login after successful registration
+                navigate('/Login');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');

@@ -1,4 +1,3 @@
-// /frontend/pages/AdminLogin.js
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -22,9 +21,10 @@ function AdminLogin() {
         try {
             const response = await axios.post('http://localhost:3001/admin/login', formData);
             if (response.data.token) {
-                localStorage.setItem('adminToken', response.data.token); // Store JWT in localStorage
-                navigate('/admin/dashboard'); // Redirect to admin dashboard
-            }
+                localStorage.setItem('adminToken', response.data.token);
+                localStorage.setItem('adminUsername', response.data.admin.Lecturer_Username);
+                navigate('/admin/dashboard');
+            }            
         } catch (err) {
             setError(err.response?.data?.message || 'Login failed. Please try again.');
         }
@@ -40,6 +40,7 @@ function AdminLogin() {
                 <button type="submit">Login</button>
             </form>
             <button onClick={() => navigate('/admin-register')}>Sign up As a Lecturer</button>
+            <button onClick={() => navigate('/')}>Back to home</button>
         </div>
     );
 }

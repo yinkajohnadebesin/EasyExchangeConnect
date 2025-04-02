@@ -1,4 +1,3 @@
-// /frontend/pages/AdminRegister.js
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -32,7 +31,7 @@ function AdminRegister() {
             const response = await axios.post('http://localhost:3001/admin/register', formData);
             if (response.status === 201) {
                 setSuccessMessage('Registration successful!');
-                navigate('/admin-login'); // Redirect to admin login after success
+                navigate('/admin-login');
             }
         } catch (err) {
             setError(err.response?.data?.message || 'Registration failed. Please try again.');

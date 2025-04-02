@@ -105,8 +105,8 @@ function UpdateUniversityDetails() {
                 }
             );
     
-            setProgrammeCodes(res.data.codes); // Update state with refreshed list
-            setNewProgrammeCode(""); // Clear input
+            setProgrammeCodes(res.data.codes);
+            setNewProgrammeCode("");
         } catch (err) {
             console.error("Error adding programme code:", err);
             alert("Failed to add programme code.");

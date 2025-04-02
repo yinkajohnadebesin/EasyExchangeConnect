@@ -1,4 +1,3 @@
-// /frontend/pages/AdminDashboard.js
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -12,7 +11,7 @@ function AdminDashboard() {
         const fetchAdminProfile = async () => {
             const token = localStorage.getItem('adminToken');
             if (!token) {
-                navigate('/admin-login'); // Redirect to admin login if no token
+                navigate('/admin-login');
                 return;
             }
 
