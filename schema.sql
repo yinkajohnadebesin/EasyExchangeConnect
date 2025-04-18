@@ -1,5 +1,4 @@
 -- --------------------------------------------------------------------------------------------
-
 DROP DATABASE IF EXISTS EEC;
 CREATE DATABASE IF NOT EXISTS EEC;
 USE EEC;
@@ -28,17 +27,6 @@ CREATE TABLE Admins (
     Lecturer_Username VARCHAR(50) UNIQUE NOT NULL,
     Lecturer_DOB DATE,
     Lecturer_Password VARCHAR(100) NOT NULL
-);
-
--- Drop and recreate the Applications table
-DROP TABLE IF EXISTS Applications;
-
-CREATE TABLE Applications (
-    Application_ID INT AUTO_INCREMENT PRIMARY KEY,
-    Applicant_ID VARCHAR(20),
-    Application_Submit_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    Institution_Choice VARCHAR(100) NOT NULL,
-    FOREIGN KEY (Applicant_ID) REFERENCES Users(Student_ID)
 );
 
 -- Drop and recreate the Comments table
@@ -106,4 +94,23 @@ CREATE TABLE University_Images (
     Image_URL TEXT NOT NULL,
     Caption VARCHAR(255),
     FOREIGN KEY (University_ID) REFERENCES Universities(University_ID)
+);
+
+-- Drop and recreate the Applications table
+DROP TABLE Applications;
+CREATE TABLE Applications (
+    Application_ID INT AUTO_INCREMENT PRIMARY KEY,
+    Applicant_ID VARCHAR(50) NOT NULL,
+    First_Name VARCHAR(100) NOT NULL,
+    Last_Name VARCHAR(100) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Student_Number VARCHAR(50) NOT NULL,
+    GPA VARCHAR(3) NOT NULL,
+    GPA_Image_URL TEXT NOT NULL,
+    Institution_Choice INT NOT NULL,
+    Status ENUM('Pending', 'Approved', 'Rejected') DEFAULT 'Pending',
+    Application_Submit_Date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (Applicant_ID) REFERENCES Users(Student_ID),
+    FOREIGN KEY (Institution_Choice) REFERENCES Universities(University_ID)
 );

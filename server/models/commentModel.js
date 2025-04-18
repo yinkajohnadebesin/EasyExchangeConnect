@@ -1,5 +1,6 @@
 const connection = require('../dbconnection');
 
+// querying the database for comments and replies...
 const fetchComments = () => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT Comment_ID, Comment, Comment_Creator_s, Comment_Creator_l, Comment_DateCreated FROM Comments ORDER BY Comment_DateCreated ASC';
@@ -10,6 +11,7 @@ const fetchComments = () => {
     });
 };
 
+// Inserting a new comment into the database...
 const makeComment = (comment, studentUsername, lecturerUsername) => {
     return new Promise((resolve, reject) => {
         const query = 'INSERT INTO Comments (Comment, Comment_Creator_s, Comment_Creator_l) VALUES (?, ?, ?)';
@@ -20,6 +22,7 @@ const makeComment = (comment, studentUsername, lecturerUsername) => {
     });
 };
 
+// Selecting replies from the database based on the comment ID...
 const fetchRepliesByCommentId = (commentId) => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT Reply_ID, Reply, Reply_Creator_s, Reply_Creator_l, Reply_DateCreated FROM Replies WHERE Comment_ID = ?';
@@ -30,6 +33,7 @@ const fetchRepliesByCommentId = (commentId) => {
     });
 };
 
+// Inserting a new reply into the database...
 const makeReply = ({ commentId, reply, studentUsername, lecturerUsername }) => {
     return new Promise((resolve, reject) => {
         const query = 'INSERT INTO Replies (Reply, Comment_ID, Reply_Creator_s, Reply_Creator_l) VALUES (?, ?, ?, ?)';
@@ -40,6 +44,7 @@ const makeReply = ({ commentId, reply, studentUsername, lecturerUsername }) => {
     });
 };
 
+// Deleting replies based on the comment ID...
 const deleteRepliesByCommentId = (commentId) => {
     return new Promise((resolve, reject) => {
         const query = 'DELETE FROM Replies WHERE Comment_ID = ?';
@@ -50,6 +55,7 @@ const deleteRepliesByCommentId = (commentId) => {
     });
 };
 
+// Deleting a comment based on the comment ID and username (admin or user)...
 const deleteCommentById = (commentId, username, isAdmin = false) => {
     return new Promise((resolve, reject) => {
         let query = 'DELETE FROM Comments WHERE Comment_ID = ? AND ';
@@ -70,6 +76,7 @@ const deleteCommentById = (commentId, username, isAdmin = false) => {
     });
 };
 
+// Selecting a comment by its ID...
 const getCommentById = (commentId) => {
     return new Promise((resolve, reject) => {
         const query = 'SELECT * FROM Comments WHERE Comment_ID = ?';
@@ -80,6 +87,7 @@ const getCommentById = (commentId) => {
     });
 };
 
+// Updating a comment by its ID...
 const updateCommentById = (commentId, newComment) => {
     return new Promise((resolve, reject) => {
         const query = `UPDATE Comments SET Comment = ? WHERE Comment_ID = ?`;
@@ -89,7 +97,6 @@ const updateCommentById = (commentId, newComment) => {
         });
     });
 };
-
 
 module.exports = {
     fetchComments,

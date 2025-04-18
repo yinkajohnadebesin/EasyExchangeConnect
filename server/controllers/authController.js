@@ -6,6 +6,7 @@ const { findUserByEmail, createStudent } = require("../models/userModel");
 
 dotenv.config();
 
+// Login function for student users
 const login = async (req, res) => {
     const { Student_Email, Student_Password } = req.body;
     if (!Student_Email || !Student_Password) {
@@ -49,64 +50,76 @@ const login = async (req, res) => {
 
 const register = async (req, res) => {
     const {
+      Student_ID,
+      Student_FirstName,
+      Student_LastName,
+      Student_Email,
+      Student_Username,
+      Student_DOB,
+      Student_Password,
+    } = req.body;
+  
+    if (
+      !Student_ID ||
+      !Student_FirstName ||
+      !Student_LastName ||
+      !Student_Email ||
+      !Student_Username ||
+      !Student_DOB ||
+      !Student_Password
+    ) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
+  
+    try {
+      // Check if email is already registered
+      const existingUser = await findUserByEmail(Student_Email);
+      if (existingUser) {
+        return res.status(400).json({ message: "Email already in use." });
+      }
+  
+      const hashedPassword = await bcrypt.hash(Student_Password, 10);
+  
+      const formData = {
         Student_ID,
         Student_FirstName,
         Student_LastName,
         Student_Email,
         Student_Username,
         Student_DOB,
-        Student_Password
-    } = req.body;
-
-    if (!Student_ID || !Student_FirstName || !Student_LastName ||
-        !Student_Email || !Student_Username || !Student_DOB || !Student_Password) {
-        return res.status(400).json({ message: "All fields are required" });
-    }
-
-    try {
-        const hashedPassword = await bcrypt.hash(Student_Password, 10);
-
-        const formData = {
-            Student_ID,
-            Student_FirstName,
-            Student_LastName,
-            Student_Email,
-            Student_Username,
-            Student_DOB,
-            Student_Password: hashedPassword
-        };
-
-        await createStudent(formData);
-
-        const token = jwt.sign(
-            {
-              Student_ID,
-              Student_Email,
-              Student_Username
-            },
-            process.env.JWT_SECRET,
-            { expiresIn: "1h" }
-        );
-
-        res.status(201).json({
-            message: "Student user created successfully",
-            token,
-            user: {
-                Student_ID,
-                Student_FirstName,
-                Student_LastName,
-                Student_Email,
-                Student_Username
-            }
-        });
-
+        Student_Password: hashedPassword,
+      };
+  
+      await createStudent(formData);
+  
+      const token = jwt.sign(
+        {
+          Student_ID,
+          Student_Email,
+          Student_Username,
+        },
+        process.env.JWT_SECRET,
+        { expiresIn: "1h" }
+      );
+  
+      res.status(201).json({
+        message: "Student user created successfully",
+        token,
+        user: {
+          Student_ID,
+          Student_FirstName,
+          Student_LastName,
+          Student_Email,
+          Student_Username,
+        },
+      });
     } catch (error) {
-        res.status(500).json({ message: "Server error", error });
+      console.error("Registration failed:", error);
+      res.status(500).json({ message: "Server error", error });
     }
-};
+  };
+  
 
-
-// Middleware to verify token
 const verifyToken = (req, res, next) => {
     const token = req.header("Authorization");
     if (!token) return res.status(401).json({ message: "Access denied. No token provided." });

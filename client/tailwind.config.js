@@ -5,7 +5,7 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["Inter", ...fontFamily.sans],
+        nunito: ["'Nunito'", ...fontFamily.sans],
       },
       perspective: {
         1000: '1000px',

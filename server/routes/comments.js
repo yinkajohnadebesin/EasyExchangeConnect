@@ -14,7 +14,7 @@ const { verifyToken } = require("../utils/authMiddleware");
 
 // ----------------------------------------------------ROUTES--------------------------------------------------
 
-// This will GET all comments and display them on the page
+// This GETS all comments and display them on the page
 router.get("/", getAllComments);
 
 // This CREATES a new comment (only logged in users can do this)
@@ -23,10 +23,7 @@ router.post("/", verifyToken, createComment);
 // This GETS a comment's replies
 router.get("/:id/replies", getReplies);
 
-// This CREATES a new reply (only logged in users can do this)
-router.post("/:id/reply", verifyToken, createReply);
-
-// This GETS all replies for a specific comment
+// This CREATES all replies for a specific comment
 router.post("/replies", verifyToken, createReply);
 
 // This DELETES a specified comment by its ID (only logged in users can do this)

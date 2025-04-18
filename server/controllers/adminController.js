@@ -6,6 +6,7 @@ const { findAdminByEmail, insertAdmin, getAdminProfileById } = require("../model
 
 dotenv.config();
 
+// 
 const adminLogin = async (req, res) => {
     const { Lecturer_Email, Lecturer_Password } = req.body;
 
@@ -14,6 +15,7 @@ const adminLogin = async (req, res) => {
     }
 
     try {
+        // triggers the findAdminByEmail function from the adminModel.js
         const admin = await findAdminByEmail(Lecturer_Email);
         const passwordMatch = await bcrypt.compare(Lecturer_Password, admin.Lecturer_Password);
 
@@ -48,8 +50,10 @@ const adminLogin = async (req, res) => {
     }
 };
 
+// get admin profile
 const getAdminProfile = async (req, res) => {
     try {
+        // triggers the getAdminProfileById function from the adminModel.js
         const admin = await getAdminProfileById(req.user.Lecturer_ID);
         res.json(admin);
     } catch (error) {
@@ -57,6 +61,7 @@ const getAdminProfile = async (req, res) => {
     }
 };
 
+// register admin
 const adminRegister = async (req, res) => {
     const {
         Lecturer_ID, Lecturer_FirstName, Lecturer_LastName,

@@ -20,9 +20,15 @@ import Universities from "./pages/Universities"
 import UniversityDetail from "./pages/getUniversity"
 import AdminCreateUniversity from "./pages/AdminCreateUniversity"
 import UpdateUniversityDetails from "./pages/EditUniversity"
+import GetApplication from "./pages/GetApplication"
+import ViewApplications from "./pages/ViewApplications";
+
 
 import Navbar from "./components/navbar"
-import YinkaBot from './pages/YinkaBot';
+import YinkaBot from './pages/YinkaBot'
+
+import "@fontsource/nunito";
+import "@fontsource/nunito/700.css";
 
 const App = () => {
     return (
@@ -46,6 +52,8 @@ const App = () => {
                     <Route path="/FAQs" element={<FAQs />} />
                     <Route path="/university/create" element={<AdminCreateUniversity />} />
                     <Route path="/universities/edit/:id" element={<UpdateUniversityDetails />} />
+                    <Route path="/my-applications" element={<GetApplication />} />
+                    <Route path="/admin/applications" element={<ViewApplications />} />
                 </Routes>
                 <YinkaBot/>
             </Router>

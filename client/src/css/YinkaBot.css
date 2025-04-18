@@ -98,3 +98,38 @@
     box-sizing: border-box;
     margin-bottom: 10px;
 }
+
+.yinka-popup {
+    position: fixed;
+    bottom: 80px;
+    right: 30px;
+    width: 300px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    padding: 16px;
+    z-index: 9999;
+}
+
+.yinka-response {
+    margin-top: 12px;
+    background: #f3f4f6;
+    padding: 10px;
+    border-radius: 8px;
+    max-height: 200px;
+    overflow-y: auto;
+    font-family: monospace;
+    white-space: pre-wrap;
+}
+
+.typing-indicator {
+    font-style: italic;
+    color: gray;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.3; }
+    50% { opacity: 1; }
+    100% { opacity: 0.3; }
+}

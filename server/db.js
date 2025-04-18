@@ -9,17 +9,19 @@ const path = require("path");
 const cors = require("cors");
 app.use(cors());
 
-const authRoutes = require("./routes/auth"); // Import auth routes
-const userRoutes = require("./routes/user"); // Import user routes
-const adminRoutes = require("./routes/admin"); // Import admin routes
+const port = 3001;
+
+// import routes
+const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/user"); 
+const adminRoutes = require("./routes/admin");
 const commentRoutes = require("./routes/comments");
 const universityRoutes = require("./routes/universities");
 const countryRoutes = require("./routes/countries");
 const cityRoutes = require("./routes/cities");
 const adminUniversityRoutes = require("./routes/adminUniversities");
+const applicationRoutes = require("./routes/applications");
 const openaiRoutes = require("./routes/openai");
-
-const port = 3001;
 
 // Middleware to handle picutre uploads from the frontend
 app.use("/uploads", express.static(path.join(__dirname, "uploads")));
@@ -34,7 +36,7 @@ app.use("/admin", adminUniversityRoutes);
 app.use("/comments", commentRoutes);
 app.use("/countries", countryRoutes);
 app.use("/cities", cityRoutes);
-
+app.use("/applications", applicationRoutes);
 
 // Start the server
 app.listen(port, () => {

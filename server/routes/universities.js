@@ -14,6 +14,7 @@ const {
     deleteUniversity,
     removeUniProgrammeCode,
     changeUni,
+    deleteUniversityImage
 } = require("../controllers/universityController");
 
 // -----------------------------------------------------IMAGE UPLOAD--------------------------------------------
@@ -52,5 +53,8 @@ router.post("/", createUniversity);
 
 // This DELETES a specified university by its ID (also only admins can do this)
 router.delete("/:id", verifyAdminToken, deleteUniversity);
+
+// This DELETES the university image from the list of the specified university
+router.delete("/edit/:id/images", verifyAdminToken, deleteUniversityImage);
 
 module.exports = router;

@@ -32,7 +32,23 @@ const makeUniProgrammeCode = (universityId, programmeCode) => {
 
 const getAllUniversities = () => {
     return new Promise((resolve, reject) => {
-        const query = ' SELECT u.University_ID, u.University_Name, u.Title, c.City_Name, co.Country_Name FROM Universities u JOIN Cities c ON u.City_ID = c.City_ID JOIN Country co ON c.Country_ID = co.Country_ID';
+        const query = `SELECT 
+                u.University_ID,
+                u.University_Name,
+                u.Title,
+                c.City_Name,
+                co.Country_Name,
+                (
+                SELECT Image_URL 
+                FROM University_Images 
+                WHERE University_Images.University_ID = u.University_ID 
+                ORDER BY Image_ID ASC 
+                LIMIT 1
+                ) AS Image_URL
+            FROM Universities u
+            JOIN Cities c ON u.City_ID = c.City_ID
+            JOIN Country co ON c.Country_ID = co.Country_ID
+            `;
         connection.query(query, (err, results) => {
             if (err) return reject(err);
             resolve(results);
@@ -170,9 +186,36 @@ const deleteCountryById = (countryId) => {
     });
 };
 
+const deleteImageByUrl = (universityId, imageUrl) => {
+    return new Promise((resolve, reject) => {
+      const query = "DELETE FROM University_Images WHERE University_ID = ? AND Image_URL = ?";
+      connection.query(query, [universityId, imageUrl], (err, results) => {
+        if (err) return reject(err);
+        resolve(results);
+      });
+    });
+  };  
+
+  const getFirstUniversityImage = (universityId) => {
+    return new Promise((resolve, reject) => {
+      const query = `
+        SELECT Image_URL 
+        FROM University_Images 
+        WHERE University_ID = ? 
+        ORDER BY Image_ID ASC 
+        LIMIT 1
+      `;
+      connection.query(query, [universityId], (err, results) => {
+        if (err) return reject(err);
+        resolve(results[0] || null); 
+      });
+    });
+  };
+  
 
 module.exports = {
     // GETS
+    getFirstUniversityImage,
     getAllUniCodesById,
     getAllUniversities,
     getUniversityById,
@@ -185,6 +228,7 @@ module.exports = {
     deleteProgrammeCodeByUni,
     deleteCityById,
     deleteCountryById,
+    deleteImageByUrl,
     // MISCELLANEOUS
     isCityUsed,
     isCountryUsed,

@@ -46,11 +46,13 @@ const findUserByEmail = (email) => {
     return new Promise((resolve, reject) => {
         const query = "SELECT * FROM Users WHERE Student_Email = ?";
         connection.query(query, [email], (err, results) => {
-            if (err || results.length === 0) return reject(err || new Error("User not found"));
-            resolve(results[0]);
+            if (err) return reject(err);
+            // ✅ Just return null if no user found
+            resolve(results.length > 0 ? results[0] : null);
         });
     });
 };
+
 
 module.exports = {
     fetchUsers,

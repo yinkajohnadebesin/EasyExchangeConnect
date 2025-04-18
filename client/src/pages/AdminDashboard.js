@@ -7,6 +7,7 @@ function AdminDashboard() {
     const [admin, setAdmin] = useState(null);
     const [error, setError] = useState('');
 
+    // Check if admin is logged in and fetch profile
     useEffect(() => {
         const fetchAdminProfile = async () => {
             const token = localStorage.getItem('adminToken');
@@ -16,11 +17,13 @@ function AdminDashboard() {
             }
 
             try {
+                // Fetch admin profile using the token
                 const response = await axios.get('http://localhost:3001/admin/profile', {
                     headers: { Authorization: token }
                 });
                 setAdmin(response.data);
             } catch (err) {
+                // Handle error if token is invalid or expired
                 setError('Failed to fetch admin profile. Please log in again.');
                 localStorage.removeItem('adminToken');
                 navigate('/admin-login');
@@ -31,11 +34,15 @@ function AdminDashboard() {
     }, [navigate]);
 
     return (
-        <div>
-            <h1>Admin Dashboard</h1>
+        <div className="mt-5">
             {error && <p>{error}</p>}
-            {admin ? <h2>Welcome, {admin.Lecturer_FirstName}!</h2> : <p>Loading...</p>}
-            <button onClick={() => navigate('/universities')}>Manage Universities</button>
+            {admin ? <h2>Welcome, {admin.Lecturer_FirstName}! Are you ready to manage student applications and universities?</h2> : <p>Loading...</p>}
+            <button 
+                onClick={() => navigate('/universities')}
+                className="btn btn-primary mt-3"
+            >
+            Manage Universities
+            </button>
         </div>
     );
 }
