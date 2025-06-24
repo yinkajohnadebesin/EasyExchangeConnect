@@ -4,6 +4,8 @@ import axios from "axios";
 import UD_Background from "../assets/statics/UD_Background.jpg";
 import { FileUpload } from "../components/ui/file-upload";
 import { CardContainer, CardBody, CardItem } from "../components/ui/3d-card";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 function UpdateUniversityDetails() {
   const navigate = useNavigate();
@@ -21,35 +23,35 @@ function UpdateUniversityDetails() {
     Title: "",
     Description: "",
     City_ID: "",
-    Caption: ""
+    Caption: "",
   });
 
   const [selectedFile, setSelectedFile] = useState(null);
 
   // fetch the specific university details and cities
   useEffect(() => {
-    axios.get(`http://localhost:3001/universities/${id}`).then(res => {
+    axios.get(`http://localhost:3001/universities/${id}`).then((res) => {
       const data = res.data;
       setForm({
         University_Name: data.University_Name || "",
         Title: data.Title || "",
         Description: data.Description || "",
         City_ID: data.City_ID || "",
-        Caption: ""
+        Caption: "",
       });
       setProgrammeCodes(data.Programmes || []);
       setImages(data.Images || []);
       setLoading(false);
     });
 
-    axios.get(`http://localhost:3001/cities`).then(res => {
+    axios.get(`http://localhost:3001/cities`).then((res) => {
       setCities(res.data);
     });
   }, [id]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm(prev => ({ ...prev, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFileChange = (files) => {
@@ -78,8 +80,8 @@ function UpdateUniversityDetails() {
         {
           headers: {
             "Content-Type": "multipart/form-data",
-            Authorization: localStorage.getItem("adminToken")
-          }
+            Authorization: localStorage.getItem("adminToken"),
+          },
         }
       );
 
@@ -97,17 +99,22 @@ function UpdateUniversityDetails() {
 
   // handle image deletion
   const handleDeleteImage = async (imageUrl) => {
-    const confirm = window.confirm("Are you sure you want to delete this image?");
+    const confirm = window.confirm(
+      "Are you sure you want to delete this image?"
+    );
     if (!confirm) return;
 
     try {
       // send the delete request to the backend
-      const res = await axios.delete(`http://localhost:3001/universities/edit/${id}/images`, {
-        data: { imageUrl },
-        headers: {
-          Authorization: localStorage.getItem("adminToken")
+      const res = await axios.delete(
+        `http://localhost:3001/universities/edit/${id}/images`,
+        {
+          data: { imageUrl },
+          headers: {
+            Authorization: localStorage.getItem("adminToken"),
+          },
         }
-      });
+      );
 
       // render the updated images
       setImages(res.data.images);
@@ -143,7 +150,9 @@ function UpdateUniversityDetails() {
 
   // handle programme code deletion
   const handleDeleteUniProgrammeCode = async (codeToDelete) => {
-    const confirmDelete = window.confirm(`Are you sure you want to delete programme code "${codeToDelete}"?`);
+    const confirmDelete = window.confirm(
+      `Are you sure you want to delete programme code "${codeToDelete}"?`
+    );
     if (!confirmDelete) return;
 
     try {
@@ -184,14 +193,17 @@ function UpdateUniversityDetails() {
             ← Back
           </button>
         </div>
-        <p className="text-white/90 mb-6">Make updates to this university’s profile and manage its gallery and programmes.</p>
+        <p className="text-white/90 mb-6">
+          Make updates to this university’s profile and manage its gallery and
+          programmes.
+        </p>
         {message && <p className="text-green-400 font-bold mb-4">{message}</p>}
 
         <div className="flex flex-col lg:flex-row gap-12">
           {/* LEFT SECTION */}
           <form onSubmit={handleSubmit} className="space-y-6 flex-1 max-w-2xl">
-            <div>
-              <label className="block text-lg font-bold mb-1">University Name</label>
+            <div className="space-y-2">
+              <label className="block text-lg font-bold">University Name</label>
               <input
                 type="text"
                 name="University_Name"
@@ -202,8 +214,8 @@ function UpdateUniversityDetails() {
               />
             </div>
 
-            <div>
-              <label className="block text-lg font-bold mb-1">Title</label>
+            <div className="space-y-2">
+              <label className="block text-lg font-bold">Title</label>
               <input
                 type="text"
                 name="Title"
@@ -213,8 +225,8 @@ function UpdateUniversityDetails() {
               />
             </div>
 
-            <div>
-              <label className="block text-lg font-bold mb-1">City</label>
+            <div className="space-y-2">
+              <label className="block text-lg font-bold">City</label>
               <select
                 name="City_ID"
                 value={form.City_ID}
@@ -223,7 +235,7 @@ function UpdateUniversityDetails() {
                 className="w-full p-3 rounded bg-white/80 text-black"
               >
                 <option value="">Select a city</option>
-                {cities.map(city => (
+                {cities.map((city) => (
                   <option key={city.City_ID} value={city.City_ID}>
                     {city.City_Name}
                   </option>
@@ -231,25 +243,66 @@ function UpdateUniversityDetails() {
               </select>
             </div>
 
-            <div>
-              <label className="block text-lg font-bold mb-1">Description</label>
-              <textarea
-                name="Description"
+            <div className="space-y-2">
+              <label className="block text-lg font-bold">Description</label>
+              <ReactQuill
+                theme="snow"
                 value={form.Description}
-                onChange={handleChange}
-                rows={5}
-                className="w-full p-3 rounded bg-white/80 text-black"
+                onChange={(value) =>
+                  setForm((prev) => ({ ...prev, Description: value }))
+                }
+                className="bg-white text-black rounded min-h-[300px]"
+                modules={{
+                  toolbar: [
+                    [{ font: [] }, { size: [] }],
+                    [{ header: [1, 2, 3, false] }],
+                    [
+                      "bold",
+                      "italic",
+                      "underline",
+                      "strike",
+                      "blockquote",
+                      "code-block",
+                    ],
+                    [{ color: [] }, { background: [] }],
+                    [{ align: [] }],
+                    [{ list: "ordered" }, { list: "bullet" }],
+                    ["link", "clean"],
+                  ],
+                }}
+                formats={[
+                  "font",
+                  "size",
+                  "header",
+                  "bold",
+                  "italic",
+                  "underline",
+                  "strike",
+                  "blockquote",
+                  "code-block",
+                  "color",
+                  "background",
+                  "list",
+                  "bullet",
+                  "align",
+                  "link",
+                ]}
               />
             </div>
 
-            <button type="submit" className="mt-4 px-6 py-2 bg-green-700 hover:bg-green-800 rounded text-white font-bold">
+            <button
+              type="submit"
+              className="mt-6 px-6 py-2 bg-green-700 hover:bg-green-800 rounded text-white font-bold"
+            >
               Update University
             </button>
           </form>
 
           {/* RIGHT SECTION - File Upload */}
           <div className="flex-1">
-            <label className="block text-lg font-bold mb-1">Upload New Image</label>
+            <label className="block text-lg font-bold mb-1">
+              Upload New Image
+            </label>
             <FileUpload onChange={handleFileChange} />
             <input
               type="text"
@@ -278,7 +331,7 @@ function UpdateUniversityDetails() {
                     >
                       <img
                         src={`http://localhost:3001${img.Image_URL}`}
-                        alt={img.Caption || 'University Image'}
+                        alt={img.Caption || "University Image"}
                         className="w-full h-full object-cover"
                       />
                     </CardItem>
@@ -303,8 +356,13 @@ function UpdateUniversityDetails() {
 
         {/* Programme Codes */}
         <div className="mt-16 max-w-3xl pb-32">
-          <h2 className="text-3xl font-bold mb-4 text-white">Programme Codes</h2>
-          <form onSubmit={handleAddProgrammeCode} className="flex items-center gap-4 mb-6">
+          <h2 className="text-3xl font-bold mb-4 text-white">
+            Programme Codes
+          </h2>
+          <form
+            onSubmit={handleAddProgrammeCode}
+            className="flex items-center gap-4 mb-6"
+          >
             <input
               type="text"
               value={newProgrammeCode}
@@ -338,7 +396,9 @@ function UpdateUniversityDetails() {
               ))}
             </ul>
           ) : (
-            <p className="text-white/80 italic">No programme codes added yet.</p>
+            <p className="text-white/80 italic">
+              No programme codes added yet.
+            </p>
           )}
         </div>
       </div>
