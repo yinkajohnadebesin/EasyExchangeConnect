@@ -55,8 +55,6 @@ The focus on reusability, scalability and real-world relevance makes this produc
 -    [OpenAI API](https://openai.com/api/)
 -    [Nodemailer](https://nodemailer.com/)
 
-***
-
 # Setup
 
 #### PREREQUISITES
@@ -91,3 +89,4 @@ npm start
 -    Application analytics
 -    Secure deployment and cloud-based storage
 -    Mobile-first optimizations
+
