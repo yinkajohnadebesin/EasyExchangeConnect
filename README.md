@@ -1,20 +1,93 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+> ***Yinka John Adebesin***<br>
+> Computer Science Graduate<br>
+> Aspiring Software Engineer / Full-Stack Developer
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+***
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+# 🎓 EasyExchangeConnect 🎓
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+## Overview
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+***EasyExchangeConnect*** is a full-stack web application platform developed to streamline the Erasmus student exchange application process by connecting *young professionals* (students, YP), *experts* (university alumni), and administrators through a centralized, modern system.
+
+The goal of EasyExchangeConnect is to replace the tediousness of the current application process with a simpler and more direct procedure through:
+-    A student-side component for submitting and tracking Erasmus applications
+-    An administrator-side portal to manage home university-partnered institutions and review applications
+-    Automated approval/rejection process via email notifications
+-    An AI-powered assistant (Yinka) to guide users through the platform
+-    A collaborative sector of the platform *EasyExchangeConnect+*
+
+The focus on reusability, scalability and real-world relevance makes this product suitable for academic and institutional use.
+
+## Features
+#### Young Professionals (Students)👨‍🎓
+-    User registration and authentication
+-    Submit/track/withdraw exchange applications
+-    Collaborate through EasyExchangeConnect+
+-    View home university-partnered institutions
+
+#### Experts 👩‍🏫
+-    Admin authentication
+-    CRUD functions for university-partnered institutions
+-    Review student applications
+-    Moderate comments through EasyExchangeConnect+
+
+#### AI Assistant
+-    OpenAI-powered chatbot
+-    Platform-related query restrictions
+-    Typewriter-style response
+
+
+## Technology Stack
+#### Frontend
+-    [ReactJS](https://react.dev/)
+-    [TailwindCSS](https://tailwindcss.com/)
+-    [Aceternity UI](https://ui.aceternity.com/)
+
+#### Backend
+-    [NodeJS](https://nodejs.org/en) + [ExpressJS](https://expressjs.com/)
+-    [JWT Authentication](https://www.jwt.io/)
+
+#### Database
+-    [MySQL](https://www.mysql.com/)
+
+#### Other Tools I Used
+-    [OpenAI API](https://openai.com/api/)
+-    [Nodemailer](https://nodemailer.com/)
+
+***
+
+# Setup
+
+#### PREREQUISITES
+-    [NodeJS](https://nodejs.org/en)
+-    [MySQL](https://www.mysql.com/)
+-    [npm](https://www.npmjs.com/)
+
+
+### 1.   Clone EasyExchangeConnect
+```
+https://github.com/yinkajohnadebesin/EasyExchangeConnect.git
+cd EasyExchangeConnect
+```
+
+### 2.   Install Dependencies
+#### Frontend
+```
+cd client
+npm install
+npm start
+```
+
+>    ## Configuration Notes
+> This project uses environment variables and MySQL database setup to implement backend services such as authentication, AI integration and application workflows.
+> 
+> To keep this repository visitor-friendly, detailed database configuration and environment variables have been intentionally removed. This repository serves as a showcase of application architecture, design and full-stack development practices. However, the client aspect of the project can be run locally with the shell commands above.
+
+
+#### Future Improvements
+-    Language proficiency verification
+-    University seat availability automation
+-    Application analytics
+-    Secure deployment and cloud-based storage
+-    Mobile-first optimizations
