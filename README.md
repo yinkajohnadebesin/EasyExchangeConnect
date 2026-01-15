@@ -65,7 +65,7 @@ The focus on reusability, scalability and real-world relevance makes this produc
 
 ### 1.   Clone EasyExchangeConnect
 ```
-https://github.com/yinkajohnadebesin/EasyExchangeConnect.git
+git clone https://github.com/yinkajohnadebesin/EasyExchangeConnect.git
 cd EasyExchangeConnect
 ```
 
@@ -89,5 +89,6 @@ npm start
 -    Application analytics
 -    Secure deployment and cloud-based storage
 -    Mobile-first optimizations
+
 
 
